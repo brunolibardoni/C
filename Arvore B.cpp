@@ -192,8 +192,7 @@ void preOrdem(struct valor **lis){
 	struct valor *pN;
 	pN = *lis;
     if(pN != NULL){
-    	as[j] = pN->val;
-    	j++;
+    	printf("%i ",pN->val);
         preOrdem(&pN->pesquerda);
         preOrdem(&pN->pdireita);
     }
@@ -204,8 +203,7 @@ void emOrdem(struct valor **lis){
 	pN = *lis;
     if(pN != NULL){
     	emOrdem(&pN->pesquerda);
-    	as[j] = pN->val;
-    	j++;
+    	printf("%i ",pN->val);
         emOrdem(&pN->pdireita);
     }
 }
@@ -217,8 +215,7 @@ void posOrdem(struct valor **lis){
     if(pN != NULL){
     	posOrdem(&pN->pesquerda);
     	posOrdem(&pN->pdireita);
-    	as[j] = pN->val;
-    	j++;
+    	printf("%i ",pN->val);
     }
 }
 
@@ -242,7 +239,24 @@ void posOrdem(struct valor **lis){
 	}
 }
  
+ int Desbalanceamento(valor **lis){
+ 	struct valor *pro;
+ 	pro = *lis;
+ 	
+ 	int e,d; 
+ 	
+	 if(pro == NULL){
+		return -1;
+	}else{
+	 	 e = profundidade(&pro->pesquerda);
+	 	 d = profundidade (&pro->pdireita);
 
+			int temp = 0 ;	 	
+	 		temp = e - d;
+	
+		 	return temp; 		
+		}
+	}
 
 int main(){
 	valor *vall;
@@ -261,7 +275,7 @@ int main(){
 			printf("  %d\n", vall->val);
 		}
 		
-		printf("\n Escolha uma opcao:\n 1 - Esquerda\n 2 - Direita\n 3 - Cima\n 4 - Inserir\n 5 - Deletar\n 6 - Profundidade\n 7 - Pre-Ordem\n 8 - Em Ordem\n 9 - Pos Ordem\n 10 - Sair\n\n");
+		printf("\n Escolha uma opcao:\n 1 - Esquerda\n 2 - Direita\n 3 - Cima\n 4 - Inserir\n 5 - Deletar\n 6 - Profundidade\n 7 - Pre-Ordem\n 8 - Em Ordem\n 9 - Pos Ordem\n 10 - Desbalanceamento\n 0 - Sair\n\n");
 		scanf("%d", &op);
 		
 		if(op == 1){
@@ -282,7 +296,7 @@ int main(){
             
             if(vall != NULL){
             	
-            	while(2>1){
+            	while(2 > 1){
             		
             		if(vall->pcima != NULL){
             			vall = vall->pcima;
@@ -341,7 +355,7 @@ int main(){
 				while(vall->pcima != NULL){
 					vall = vall->pcima;
 				}
-			printf("Nivel: %i",profundidade(&vall));
+			printf("Nivel: %i\n",profundidade(&vall));
 			
 			system("pause");
 			}
@@ -352,9 +366,7 @@ int main(){
 			preOrdem(&vall);
 			printf("\n\nArvore Pre-Ordem:\n ");
 
-			for (o=0; o<j; o++){
-				printf("%i ",as[o]);
-			}
+		
 			printf("\n");
 			system("pause");
 		}
@@ -363,10 +375,6 @@ int main(){
 			int o = 0;
 			emOrdem(&vall);
 			printf("\n\nArvore Em Ordem:\n ");
-
-			for (o=0; o<j; o++){
-				printf("%i ",as[o]);
-			}
 			printf("\n");
 			system("pause");
 
@@ -374,17 +382,38 @@ int main(){
 		else if(op == 9){
 			int o = 0;
 			posOrdem(&vall);
-			printf("\n\n Arvore em Pos Ordem");
-			
-			for(o=0; o<j; o++){
-				printf(" %i ",as[o]);
-			}
-			
+			printf("\n\n Arvore em Pos Ordem");	
 			printf("\n");
 			system("pause");
 		}
 		
-		else if (op == 10){
+		else if(op == 10){
+			if(vall == NULL){
+				printf("\nArvore vazia!\n");
+				system("pause");
+			}else{
+				while(vall->pcima != NULL){
+					vall = vall->pcima;
+				}
+			printf("Desbalanceamento: %i\n",Desbalanceamento(&vall));
+			
+			 if(Desbalanceamento(&vall) < 0){
+			 	printf("\n\nDesbalanceada para Direita\n");
+			 }
+			 
+			 else if (Desbalanceamento(&vall) > 0){
+			 	printf("\n\nDesbalanceada para Esquerda\n");
+			 }
+			 
+			 else if (Desbalanceamento(&vall) == 0){
+			 	printf("\n\nAltura das subarvores sao IGUAIS\n");
+			 }
+			
+			system("pause");
+			}
+		}
+		
+		else if (op == 0){
 			break;
 		}
 		
